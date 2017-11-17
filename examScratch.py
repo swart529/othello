@@ -1,8 +1,6 @@
 #Exam Scratch
 import turtle
 
-turtle.setworldcoordinates(-10,-10,190,190)
-
 def grid(t):
     t.shapesize(3.5)
     t.speed(0)
@@ -44,7 +42,7 @@ def gridNum(t):
             num += 1
             x += 22.5
 
-def boardPos():
+def boardPosition():
     boardMatrix = []
     for i in range(8):
         boardMatrix.append([0,1,2,3,4,5,6,7])
@@ -69,7 +67,7 @@ def boardPos():
             col += 1
     return boardMatrix
 
-def boardCol():
+def boardColor():
     boardMatrix = []
     row = 0
     col = 0
@@ -88,3 +86,46 @@ def boardCol():
             boardMatrix[row][col] = 'U'
             col += 1
     return boardMatrix
+
+def colorChange(t,boardPos, row, col, color):
+    t.shape('circle')
+    t.goto(boardPos[row][col])
+    if color =='W':
+        t.color('white')
+    elif color == 'B':
+        t.color('black')
+    t.stamp()
+
+
+
+def isValidMove(boardCol, row, col, color):
+    if boardCol[row][col] == 'U':
+        return True
+    if boardCol[row][col] == 'B':
+        return False
+    if boardCol[row][col] == 'W':
+        return False
+
+def main():
+    turtle.setworldcoordinates(-10,-10,190,190)
+    t = turtle.Turtle()
+    grid(t)
+    gridNum(t)
+    boardCol = boardColor()
+    boardPos = boardPosition()
+    done = False
+    while not done == True:
+        moveRow = int(turtle.textinput("","Enter a row number: "))
+        moveCol = int(turtle.textinput("","Enter a column number: "))
+        color = turtle.textinput("","Enter a color: ")
+        quit = turtle.textinput("","Enter y or n: ")
+        check = isValidMove(boardCol, moveRow, moveCol, color)
+        if check == True:
+            colorChange(t,boardPos, moveRow, moveCol, color)
+        if check == False:
+            print("Not a valid move.")
+        if quit == 'y':
+            done = True
+
+if __name__ == '__main__':
+    main()
